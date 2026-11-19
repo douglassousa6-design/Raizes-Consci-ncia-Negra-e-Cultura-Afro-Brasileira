@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Raízes — uma experiência interativa sobre Consciência Negra, história, cultura e identidade afro-brasileira.">
   <meta name="theme-color" content="#17120f">
+  <!-- MELHORIA: Open Graph. Estas metatags definem o título, o texto e a imagem
+       que aparecem quando alguém compartilha o link no WhatsApp, Instagram etc. -->
+  <meta property="og:title" content="Raízes — Cultura, História e Identidade">
+  <meta property="og:description" content="Projeto educativo do IFTO – Campus Formoso do Araguaia em alusão ao Dia da Consciência Negra.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Zumbi%20e%20Dandara%20dos%20Palmares.png?width=1200">
+  <!-- MELHORIA: favicon (ícone da aba do navegador). Usamos um SVG escrito
+       direto no código ("data URI"), assim não é preciso criar um arquivo extra. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317120f'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23d5a84d' font-family='Georgia,serif' font-weight='700'%3ER%3C/text%3E%3C/svg%3E">
   <title>Raízes — Cultura, História e Identidade</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,111 +21,457 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <!-- MELHORIA: novo arquivo com os estilos de acessibilidade e da seção de créditos.
+       Ele é carregado por ÚLTIMO para que suas regras tenham prioridade (a "cascata" do CSS). -->
+  <link rel="stylesheet" href="css/melhorias.css">
   <script type="importmap">
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
   </script>
 </head>
 <body>
+  <!-- MELHORIA: link "Pular para o conteúdo". Ele fica escondido e só aparece quando
+       a pessoa aperta Tab. Ajuda quem navega pelo teclado ou usa leitor de tela a
+       não precisar passar por todo o menu em cada página. -->
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <!-- MELHORIA: <noscript> só aparece se o JavaScript estiver desligado. -->
+  <noscript><p class="noscript-aviso">Algumas partes interativas (linha do tempo, galeria 3D e janelas de informação) precisam de JavaScript ativado. O restante do conteúdo pode ser lido normalmente.</p></noscript>
   <div class="scroll-progress" id="scrollProgress"></div>
   <header class="site-header" id="topo">
     <a class="brand" href="#inicio" aria-label="Raízes, início"><span class="brand-mark">R</span><span>RAÍZES<span class="brand-dot">.</span><small>CULTURA • HISTÓRIA • IDENTIDADE</small></span></a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <!-- MELHORIA: aria-controls diz ao leitor de tela qual elemento este botão abre. -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
     <nav class="main-nav" id="mainNav" aria-label="Navegação principal">
-      <a href="#historia">História</a><a href="#cultura">Cultura</a><a href="#personalidades">Personalidades</a><a href="#resistencia">Resistência</a><a href="#galeria">Galeria 3D</a>
+      <a href="#historia">História</a><a href="#cultura">Cultura</a><a href="#contribuicoes">Contribuições</a><a href="#personalidades">Personalidades</a><a href="#resistencia">Resistência</a><a href="#galeria">Galeria 3D</a>
     </nav>
-    <button class="access-button" id="contrastToggle" aria-label="Alternar alto contraste" title="Alto contraste">◐</button>
+    <!-- MELHORIA: aria-pressed="false" informa que o botão funciona como liga/desliga e começa desligado. -->
+    <button class="access-button" id="contrastToggle" aria-label="Alternar alto contraste" aria-pressed="false" title="Ativar alto contraste"><span aria-hidden="true">◐</span></button>
   </header>
 
-  <main>
+  <!-- MELHORIA: id="conteudo" é o destino do link "Pular para o conteúdo".
+       tabindex="-1" permite que o <main> receba o foco do teclado. -->
+  <main id="conteudo" tabindex="-1">
+    <!-- MELHORIA (desempenho): todas as imagens do Wikimedia agora terminam com
+         "?width=800" (ou 1200). Sem isso, o navegador baixava a foto ORIGINAL, que pode
+         ter vários megabytes. Com o parâmetro, o Wikimedia entrega uma versão menor. -->
     <section class="hero section-pad" id="inicio">
       <div class="hero-pattern pattern-one"></div><div class="hero-pattern pattern-two"></div>
       <div class="hero-content reveal">
         <p class="eyebrow"><span></span> 20 DE NOVEMBRO • DIA DA CONSCIÊNCIA NEGRA</p>
         <h1>Nossa história.<br><em>Nossa identidade.</em><br>Nossa ancestralidade.</h1>
         <p class="hero-copy">Uma viagem pelas raízes que nos formam, pelas vozes que abriram caminhos e pela cultura que segue viva em cada geração.</p>
-        <div class="hero-actions"><a class="btn btn-gold" href="#historia">Conheça nossa história <span>↗</span></a><a class="text-link" href="#personalidades">Conheça quem fez história <span>→</span></a></div>
+        <div class="hero-actions"><a class="btn btn-gold" href="#historia">Conheça nossa história <span aria-hidden="true">↗</span></a><a class="text-link" href="#personalidades">Conheça quem fez história <span aria-hidden="true">→</span></a></div>
         <div class="hero-stats"><div><strong>01</strong><span>memória viva</span></div><div><strong>∞</strong><span>histórias para contar</span></div><div><strong>20/11</strong><span>consciência e ação</span></div></div>
       </div>
       <div class="hero-art reveal" aria-label="Composição artística com formas geométricas inspiradas em padrões africanos">
         <div class="hero-orbit orbit-a"></div><div class="hero-orbit orbit-b"></div><div class="hero-sun"></div>
-        <div class="hero-art-card"><span class="art-kicker">ANCESTRALIDADE</span><div class="art-symbol">✳</div><span class="art-caption">A memória é<br>um território.</span></div>
+        <div class="hero-art-card"><span class="art-kicker">ANCESTRALIDADE</span><div class="art-symbol" aria-hidden="true">✳</div><span class="art-caption">A memória é<br>um território.</span></div>
         <span class="floating-word word-one">RESPEITO</span><span class="floating-word word-two">PERTENCIMENTO</span><span class="hero-number">20<br><small>NOV</small></span>
       </div>
-      <a class="scroll-cue" href="#historia">ROLE PARA DESCOBRIR <span>↓</span></a>
+      <a class="scroll-cue" href="#historia">ROLE PARA DESCOBRIR <span aria-hidden="true">↓</span></a>
     </section>
 
-    <section class="intro-band"><p>“Conhecer nossas raízes é reconhecer a força de quem veio antes.”</p><span>RAÍZES • 2026</span></section>
+    <!-- MELHORIA: tiramos as aspas, porque aspas indicam citação de outra pessoa.
+         Esta frase é do próprio projeto. -->
+    <section class="intro-band"><p>Conhecer nossas raízes é reconhecer a força de quem veio antes.</p><span>RAÍZES • 2026</span></section>
 
     <section class="section section-pad" id="historia">
       <div class="section-heading reveal"><div><p class="eyebrow">01 / MEMÓRIA E ORIGEM</p><h2>Uma história que<br><em>não pode ser apagada.</em></h2></div><p class="section-intro">A história da população negra no Brasil é marcada por violência e exploração, mas também por organização, resistência, criação e luta por liberdade.</p></div>
       <div class="history-layout">
-        <div class="history-image reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Zumbi%20dos%20palmares.jpg" alt="Escultura de Zumbi dos Palmares em Salvador" loading="lazy"><div class="image-note">MEMÓRIA • RESISTÊNCIA • LIBERDADE</div></div>
-        <div class="history-text reveal"><span class="gold-line"></span><h3>Da resistência à construção de identidades</h3><p>A escravização de africanos e seus descendentes estruturou profundamente a sociedade brasileira. Mesmo diante da violência, pessoas negras preservaram saberes, formaram redes de solidariedade e construíram diferentes formas de resistência.</p><p>Os quilombos foram espaços de organização, proteção e busca por autonomia. Entre eles, o Quilombo dos Palmares tornou-se um dos símbolos mais conhecidos dessa luta. Zumbi dos Palmares é lembrado como uma de suas lideranças.</p><p>A abolição legal da escravidão, em 1888, não encerrou as desigualdades. A valorização da história afro-brasileira exige memória, educação e enfrentamento ao racismo no presente.</p><a class="text-link" href="https://www.gov.br/palmares/pt-br" target="_blank" rel="noopener">Conheça a Fundação Cultural Palmares ↗</a></div>
+        <div class="history-image reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Zumbi%20dos%20palmares.jpg?width=1200" alt="Escultura em homenagem a Zumbi dos Palmares" loading="lazy"><div class="image-note">MEMÓRIA • RESISTÊNCIA • LIBERDADE</div></div>
+        <div class="history-text reveal"><span class="gold-line"></span><h3>Da resistência à construção de identidades</h3><p>A escravização de africanos e seus descendentes estruturou profundamente a sociedade brasileira. Mesmo diante da violência, pessoas negras preservaram saberes, formaram redes de solidariedade e construíram diferentes formas de resistência.</p><p>Os quilombos foram espaços de organização, proteção e busca por autonomia. Entre eles, o Quilombo dos Palmares tornou-se um dos símbolos mais conhecidos dessa luta. Zumbi dos Palmares é lembrado como uma de suas lideranças.</p><p>A abolição legal da escravidão, em 1888, não encerrou as desigualdades. A valorização da história afro-brasileira exige memória, educação e enfrentamento ao racismo no presente.</p><a class="text-link" href="https://www.gov.br/palmares/pt-br" target="_blank" rel="noopener">Conheça a Fundação Cultural Palmares <span aria-hidden="true">↗</span></a></div>
       </div>
       <div class="timeline-wrap reveal"><div class="timeline-top"><div><p class="eyebrow">LINHA DO TEMPO</p><h3>Marcos de uma trajetória</h3></div><p>Selecione um período para conhecer um pouco mais.</p></div>
-        <div class="timeline-tabs" role="tablist" aria-label="Períodos históricos"><button class="time-tab active" data-period="colonial" role="tab" aria-selected="true">Período colonial</button><button class="time-tab" data-period="palmares" role="tab" aria-selected="false">Palmares</button><button class="time-tab" data-period="abolicao" role="tab" aria-selected="false">1888</button><button class="time-tab" data-period="hoje" role="tab" aria-selected="false">Hoje</button></div>
-        <article class="timeline-card" id="timelineCard"><span class="timeline-date">SÉCULOS XVI–XIX</span><h4>Escravização e resistência</h4><p>Milhões de africanos foram trazidos à força para o Brasil. Ao longo de todo esse período, ocorreram fugas, revoltas, negociações, preservação cultural e formação de comunidades de resistência.</p></article>
+        <!-- MELHORIA: abas acessíveis. Cada aba tem um id e aponta (aria-controls) para o
+             painel de conteúdo. Só a aba ativa fica no Tab (tabindex="0"); entre as abas,
+             a navegação é feita pelas setas do teclado (ver js/timeline.js).
+             Também foi criada a aba "20 de novembro", explicando a origem da data. -->
+        <div class="timeline-tabs" role="tablist" aria-label="Períodos históricos">
+          <button class="time-tab active" id="tab-colonial" data-period="colonial" role="tab" aria-selected="true" aria-controls="timelineCard" tabindex="0">Período colonial</button>
+          <button class="time-tab" id="tab-palmares" data-period="palmares" role="tab" aria-selected="false" aria-controls="timelineCard" tabindex="-1">Palmares</button>
+          <button class="time-tab" id="tab-abolicao" data-period="abolicao" role="tab" aria-selected="false" aria-controls="timelineCard" tabindex="-1">1888</button>
+          <button class="time-tab" id="tab-data" data-period="data" role="tab" aria-selected="false" aria-controls="timelineCard" tabindex="-1">20 de novembro</button>
+          <button class="time-tab" id="tab-hoje" data-period="hoje" role="tab" aria-selected="false" aria-controls="timelineCard" tabindex="-1">Hoje</button>
+        </div>
+        <article class="timeline-card" id="timelineCard" role="tabpanel" aria-labelledby="tab-colonial" aria-live="polite"><span class="timeline-date">SÉCULOS XVI–XIX</span><h4>Escravização e resistência</h4><p>Milhões de africanos foram trazidos à força para o Brasil. Ao longo de todo esse período, ocorreram fugas, revoltas, negociações, preservação cultural e formação de comunidades de resistência.</p></article>
       </div>
     </section>
 
     <section class="culture-section section-pad" id="cultura">
       <div class="section-heading light reveal"><div><p class="eyebrow">02 / EXPRESSÕES E SABERES</p><h2>Cultura que pulsa,<br><em>cria e transforma.</em></h2></div><p class="section-intro">A cultura afro-brasileira é diversa e está presente na música, na dança, na culinária, nas artes e em diferentes tradições.</p></div>
       <div class="culture-grid">
-        <article class="culture-card reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Maracatu%20Guerreiro.jpg" alt="Apresentação cultural de maracatu" loading="lazy"><div class="culture-overlay"><span>01 / MÚSICA</span><h3>Sons que contam histórias</h3><p>Samba, maracatu e afoxé carregam ritmos, memórias e formas coletivas de expressão.</p><button class="learn-more" data-info="O samba reúne influências africanas e brasileiras. O maracatu, com raízes em Pernambuco, articula música, dança e cortejo. O afoxé conecta música, comunidade e tradições afro-brasileiras.">Descobrir mais +</button></div></article>
-        <article class="culture-card reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Capoeira%20in%20Bahia%201835.jpg" alt="Representação histórica de capoeira na Bahia" loading="lazy"><div class="culture-overlay"><span>02 / MOVIMENTO</span><h3>Corpo, ritmo e resistência</h3><p>A capoeira combina luta, jogo, música e expressão cultural.</p><button class="learn-more" data-info="A capoeira foi construída por comunidades negras no Brasil. Sua roda reúne movimentos, instrumentos, cantos e transmissão de conhecimentos entre gerações.">Descobrir mais +</button></div></article>
-        <article class="culture-card reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Afro-Brazilian%20Art%20in%20Salvador.jpg" alt="Arte afro-brasileira em Salvador" loading="lazy"><div class="culture-overlay"><span>03 / ARTE</span><h3>Identidade em cada detalhe</h3><p>Pinturas, esculturas, tecidos e artesanato expressam conhecimentos e pertencimentos.</p><button class="learn-more" data-info="A produção artística afro-brasileira é plural. Ela dialoga com experiências locais, memórias familiares, ancestralidade e questões sociais contemporâneas.">Descobrir mais +</button></div></article>
-        <article class="culture-card reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Acaraj%C3%A9%20na%20Bahia.jpg" alt="Acarajé, alimento tradicional da Bahia" loading="lazy"><div class="culture-overlay"><span>04 / GASTRONOMIA</span><h3>Sabores de ancestralidade</h3><p>Acarajé, vatapá e outras receitas preservam saberes e tradições.</p><button class="learn-more" data-info="O acarajé é uma comida de tradição afro-baiana, ligado também a práticas culturais e religiosas. O vatapá integra a culinária de matriz africana no Brasil.">Descobrir mais +</button></div></article>
+        <article class="culture-card reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Maracatu%20Guerreiro.jpg?width=800" alt="Apresentação cultural de maracatu" loading="lazy"><div class="culture-overlay"><span>01 / MÚSICA</span><h3>Sons que contam histórias</h3><p>Samba, maracatu e afoxé carregam ritmos, memórias e formas coletivas de expressão.</p><button class="learn-more" data-info="O samba reúne influências africanas e brasileiras. O maracatu, com raízes em Pernambuco, articula música, dança e cortejo. O afoxé conecta música, comunidade e tradições afro-brasileiras.">Descobrir mais +</button></div></article>
+        <article class="culture-card reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Capoeira%20in%20Bahia%201835.jpg?width=800" alt="Representação histórica de capoeira na Bahia" loading="lazy"><div class="culture-overlay"><span>02 / MOVIMENTO</span><h3>Corpo, ritmo e resistência</h3><p>A capoeira combina luta, jogo, música e expressão cultural.</p><button class="learn-more" data-info="A capoeira foi construída por comunidades negras no Brasil. Sua roda reúne movimentos, instrumentos, cantos e transmissão de conhecimentos entre gerações.">Descobrir mais +</button></div></article>
+        <article class="culture-card reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Afro-Brazilian%20Art%20in%20Salvador.jpg?width=800" alt="Arte afro-brasileira em Salvador" loading="lazy"><div class="culture-overlay"><span>03 / ARTE</span><h3>Identidade em cada detalhe</h3><p>Pinturas, esculturas, tecidos e artesanato expressam conhecimentos e pertencimentos.</p><button class="learn-more" data-info="A produção artística afro-brasileira é plural. Ela dialoga com experiências locais, memórias familiares, ancestralidade e questões sociais contemporâneas.">Descobrir mais +</button></div></article>
+        <article class="culture-card reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Acaraj%C3%A9%20na%20Bahia.jpg?width=800" alt="Acarajé, alimento tradicional da Bahia" loading="lazy"><div class="culture-overlay"><span>04 / GASTRONOMIA</span><h3>Sabores de ancestralidade</h3><p>Acarajé, vatapá e outras receitas preservam saberes e tradições.</p><button class="learn-more" data-info="O acarajé é uma comida de tradição afro-baiana, ligado também a práticas culturais e religiosas. O vatapá integra a culinária de matriz africana no Brasil.">Descobrir mais +</button></div></article>
       </div>
       <p class="culture-footnote">As manifestações afro-brasileiras são diversas. Cada comunidade possui histórias e tradições próprias, que merecem ser conhecidas com respeito.</p>
     </section>
 
+    <!-- =====================================================================
+         NOVA SEÇÃO: CONTRIBUIÇÕES (capoeira e comidas típicas)
+         ---------------------------------------------------------------------
+         Organização desta seção:
+           1) Cabeçalho (mesmo padrão das outras seções: .section-heading)
+           2) Bloco da CAPOEIRA: foto + texto + marcos históricos (lista <ol>)
+           3) INSTRUMENTOS da roda: botões que trocam o texto do painel
+              (a lógica está em js/contribuicoes.js)
+           4) COMIDAS TÍPICAS: cards; o botão "Saiba mais" abre o modal
+              que já existia no site (função abrirModal, em js/main.js)
+           5) "Mito ou fato?": usa <details>/<summary>, elemento do próprio
+              HTML que abre e fecha SEM precisar de JavaScript
+         Estilos desta seção: css/melhorias.css, parte 10.
+         ===================================================================== -->
+    <section class="contrib-section section-pad" id="contribuicoes" aria-labelledby="contribTitulo">
+      <div class="section-heading reveal"><div><p class="eyebrow">03 / HERANÇAS QUE NOS FORMAM</p><h2 id="contribTitulo">Contribuições que<br><em>estão no nosso dia a dia.</em></h2></div><p class="section-intro">A presença africana e afro-brasileira está no jeito de jogar, de tocar, de cozinhar e de celebrar. Conheça duas dessas heranças: a capoeira e as comidas de matriz africana.</p></div>
+
+      <!-- 2) CAPOEIRA -->
+      <article class="contrib-block reveal">
+        <figure class="contrib-figure">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Roda%20de%20Capoeira%20dos%20Mestres%20veteranos.jpg?width=1200" alt="Roda de capoeira com mestres tocando berimbaus enquanto dois capoeiristas jogam no centro" loading="lazy">
+          <figcaption>Roda de capoeira de mestres veteranos • Bahia</figcaption>
+        </figure>
+        <div class="contrib-text">
+          <p class="eyebrow">CAPOEIRA • PATRIMÔNIO DA HUMANIDADE</p>
+          <h3>Jogo, luta, dança e música ao mesmo tempo</h3>
+          <p>A capoeira foi criada no Brasil por africanos escravizados e seus descendentes. Na roda, duas pessoas "jogam" no centro, enquanto as demais tocam instrumentos, cantam e batem palmas. Mais do que uma luta, ela é uma forma de transmitir valores, histórias e conhecimentos entre gerações.</p>
+          <p>Durante muito tempo, a capoeira foi perseguida. Hoje é praticada em todo o Brasil e em muitos outros países.</p>
+          <!-- <ol> = lista ORDENADA: a ordem dos itens importa (aqui, a ordem cronológica).
+               <time datetime="..."> marca a data de um jeito que buscadores e leitores de tela entendem. -->
+          <ol class="contrib-marcos">
+            <li><time datetime="1890">1890</time> O Código Penal da República passa a punir a prática da capoeira com prisão de dois a seis meses.</li>
+            <li><time datetime="1930">Anos 1930</time> Em Salvador, Mestre Bimba (Manoel dos Reis Machado) organiza um método de ensino e cria a Capoeira Regional.</li>
+            <li><time datetime="1941">1941</time> Mestre Pastinha (Vicente Ferreira Pastinha) funda o Centro Esportivo de Capoeira Angola, valorizando a tradição da capoeira angola.</li>
+            <li><time datetime="2008">2008</time> O Iphan reconhece a Roda de Capoeira e o Ofício dos Mestres de Capoeira como Patrimônio Cultural do Brasil.</li>
+            <li><time datetime="2014">2014</time> A UNESCO inscreve a Roda de Capoeira como Patrimônio Cultural Imaterial da Humanidade.</li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- NOVO: RODA EM 3D (dois capoeiristas)
+           Os bonecos são desenhados no <canvas> por js/capoeiristas-3d.js.
+           Cada botão escolhe uma sequência de movimentos (atributo data-sequencia).
+           Atenção: a classe é "movimento-choice" (e não "instrument-choice") para
+           não misturar com os botões dos instrumentos, que têm outro JavaScript. -->
+      <div class="roda3d reveal">
+        <div class="roda3d-stage">
+          <canvas id="rodaCanvas" tabindex="0" aria-label="Animação 3D de dois capoeiristas jogando. Use as setas para girar a roda e a barra de espaço para pausar."></canvas>
+          <p class="instrument-loading" id="rodaLoading">Carregando a roda 3D...</p>
+          <p class="roda3d-ritmo" id="rodaRitmo" hidden></p>
+          <span class="instrument-hint" aria-hidden="true">Arraste para girar a roda</span>
+        </div>
+        <div class="roda3d-texto">
+          <p class="eyebrow">A RODA EM 3D</p>
+          <h3>Dois capoeiristas no jogo</h3>
+          <p>Escolha um movimento para ver os dois jogadores em ação. Ligue a trilha sonora: a velocidade do jogo acompanha o toque do berimbau ou a música da roda.</p>
+          <div class="instrument-picker" role="group" aria-label="Movimentos da capoeira">
+            <button class="movimento-choice active" data-sequencia="ginga" aria-pressed="true">Ginga</button>
+            <button class="movimento-choice" data-sequencia="meialua" aria-pressed="false">Meia-lua de frente</button>
+            <button class="movimento-choice" data-sequencia="bencao" aria-pressed="false">Benção</button>
+            <button class="movimento-choice" data-sequencia="jogo" aria-pressed="false">Jogo completo</button>
+          </div>
+          <div class="instrument-panel" id="rodaDescricao" aria-live="polite">
+            <h4>Ginga</h4>
+            <p>O movimento básico da capoeira. O corpo balança de um lado para o outro, trocando a perna de trás, com um braço protegendo o rosto. É da ginga que saem os ataques e as defesas.</p>
+          </div>
+          <div class="roda3d-controles">
+            <button class="btn-mini" id="rodaPausar" aria-pressed="false">❚❚ Pausar</button>
+            <!-- <input type="range"> é um controle deslizante; <output> mostra o valor escolhido. -->
+            <label class="roda3d-velocidade">Velocidade
+              <input type="range" id="rodaVelocidade" min="0.25" max="1.5" step="0.05" value="1">
+              <output id="rodaVelocidadeValor" for="rodaVelocidade">1,00×</output>
+            </label>
+            <button class="btn-mini btn-mini-gold" data-tocar-trilha><span aria-hidden="true">♪</span> Ouvir um toque de berimbau</button>
+          </div>
+          <p class="legend-note">Bonecos criados só com formas simples do Three.js. O corpo é montado em camadas, como um esqueleto: quando o ombro gira, o braço e a mão giram junto. As pernas usam cinemática inversa: o código diz onde o pé deve ficar e a matemática calcula o quadril e o joelho. Os movimentos são uma simplificação; na capoeira, eles se aprendem na roda, com um mestre.</p>
+        </div>
+      </div>
+
+      <!-- 3) INSTRUMENTOS DA RODA (interativo) -->
+      <div class="instrumentos reveal">
+        <!-- MELHORIA: palco 3D dos instrumentos.
+             O modelo é desenhado no <canvas> pelo arquivo js/instrumentos-3d.js.
+             A lista <ul> (legenda) é preenchida pelo JavaScript com as partes do
+             instrumento e a forma do Three.js usada para criar cada uma. -->
+        <figure class="instrument-3d">
+          <div class="instrument-stage">
+            <canvas id="instrumentCanvas" tabindex="0" aria-label="Modelo 3D do instrumento selecionado. Use as setas do teclado para girar."></canvas>
+            <p class="instrument-loading" id="instrumentLoading">Carregando o modelo 3D...</p>
+            <span class="instrument-hint" aria-hidden="true">Arraste para girar</span>
+          </div>
+          <figcaption>
+            <span class="legend-title">Peças do modelo e a forma usada no código</span>
+            <ul class="instrument-legend" id="instrumentLegend"></ul>
+            <span class="legend-note">Modelo simplificado, criado só com formas geométricas do Three.js, para fins didáticos.</span>
+          </figcaption>
+        </figure>
+        <div class="instrumentos-texto">
+          <p class="eyebrow">A BATERIA DA RODA</p>
+          <h3>Os instrumentos da capoeira</h3>
+          <p>Escolha um instrumento para ver o modelo 3D e saber qual o seu papel na roda.</p>
+          <!-- role="group" + aria-label agrupam os botões para o leitor de tela.
+               aria-pressed indica qual botão está escolhido (true) ou não (false).
+               aria-controls aponta para o painel que muda quando o botão é clicado. -->
+          <div class="instrument-picker" role="group" aria-label="Instrumentos da capoeira">
+            <button class="instrument-choice active" data-instrumento="berimbau" aria-pressed="true" aria-controls="painelInstrumento">Berimbau</button>
+            <button class="instrument-choice" data-instrumento="atabaque" aria-pressed="false" aria-controls="painelInstrumento">Atabaque</button>
+            <button class="instrument-choice" data-instrumento="pandeiro" aria-pressed="false" aria-controls="painelInstrumento">Pandeiro</button>
+            <button class="instrument-choice" data-instrumento="agogo" aria-pressed="false" aria-controls="painelInstrumento">Agogô</button>
+            <button class="instrument-choice" data-instrumento="recoreco" aria-pressed="false" aria-controls="painelInstrumento">Reco-reco</button>
+          </div>
+          <!-- aria-live="polite": quando o texto muda, o leitor de tela lê a novidade
+               assim que terminar o que estava lendo (sem interromper). -->
+          <div class="instrument-panel" id="painelInstrumento" aria-live="polite">
+            <h4>Berimbau</h4>
+            <p>Arco de madeira (geralmente biriba) com um arame de aço e uma cabaça, que funciona como caixa de som. É tocado com uma baqueta, um dobrão (moeda ou pedra) e o caxixi. É o instrumento que comanda a roda: o toque do berimbau define o ritmo e o tipo de jogo. Muitas rodas têm três berimbaus: gunga (som grave), médio e viola (som agudo).</p>
+          </div>
+          <!-- A foto real fica ao lado do modelo para comparar: o 3D é uma simplificação. -->
+          <figure class="instrument-photo">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Capoeira%20Angola%20instruments.jpg?width=800" alt="Berimbaus, pandeiros e atabaque organizados para uma roda de capoeira angola" loading="lazy">
+            <figcaption>Na foto: instrumentos reais de uma roda de capoeira angola.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- 4) COMIDAS TÍPICAS -->
+      <div class="food-heading reveal">
+        <p class="eyebrow">SABORES DE MATRIZ AFRICANA</p>
+        <h3>Comidas típicas que contam histórias</h3>
+        <p>Muitos pratos brasileiros nasceram do encontro entre saberes africanos, indígenas e europeus. Na Bahia, as chamadas comidas de baiana são preparadas com azeite de dendê e carregam memórias, técnicas e sentidos religiosos.</p>
+      </div>
+      <!-- Cada card guarda o texto completo no atributo data-dish, no formato "Nome|Texto".
+           O JavaScript separa as duas partes com split('|') e mostra no modal. -->
+      <div class="food-grid">
+        <article class="food-card reveal">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Baiana-acaraj%C3%A9-Salvador.jpg?width=800" alt="Baiana de acarajé com seu tabuleiro, em Salvador" loading="lazy">
+          <div class="food-info">
+            <span>BAHIA • PATRIMÔNIO DO BRASIL</span>
+            <h4>Acarajé</h4>
+            <p>Bolinho de feijão-fradinho frito no dendê, vendido pelas baianas em seus tabuleiros.</p>
+            <button class="food-more" data-dish="Acarajé|Bolinho feito de massa de feijão-fradinho temperada com cebola e sal e frito no azeite de dendê. Costuma ser servido com vatapá, caruru, camarão seco e salada. Tem origem no àkàrà, alimento dos povos iorubás da África Ocidental, e também é uma comida ligada ao candomblé. O Ofício das Baianas de Acarajé está inscrito no Livro dos Saberes do Iphan como Patrimônio Cultural do Brasil desde 2005.">Saiba mais <span aria-hidden="true">+</span></button>
+          </div>
+        </article>
+        <article class="food-card reveal">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vatap%C3%A1.jpg?width=800" alt="Vatapá servido em uma tigela" loading="lazy">
+          <div class="food-info">
+            <span>BAHIA • NORTE • NORDESTE</span>
+            <h4>Vatapá</h4>
+            <p>Creme de pão, leite de coco, amendoim, castanha, camarão seco e dendê.</p>
+            <button class="food-more" data-dish="Vatapá|Creme espesso preparado com pão ou farinha de trigo, leite de coco, camarão seco, amendoim, castanha-de-caju, gengibre e azeite de dendê. Na Bahia, é servido com o acarajé e com pratos de peixe. Em outras regiões, como no Pará, existem versões próprias.">Saiba mais <span aria-hidden="true">+</span></button>
+          </div>
+        </article>
+        <article class="food-card reveal">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Caruru%20feito%20com%20quiabo.jpg?width=800" alt="Caruru feito com quiabo" loading="lazy">
+          <div class="food-info">
+            <span>BAHIA</span>
+            <h4>Caruru</h4>
+            <p>Quiabo picado cozido com camarão seco, amendoim ou castanha e dendê.</p>
+            <button class="food-more" data-dish="Caruru|Prato feito com quiabo picado, camarão seco, cebola, amendoim ou castanha e azeite de dendê. Na Bahia, é a comida principal do tradicional caruru de Cosme e Damião, em setembro, quando famílias preparam a refeição para crianças, vizinhos e convidados.">Saiba mais <span aria-hidden="true">+</span></button>
+          </div>
+        </article>
+        <article class="food-card reveal">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Moqueca.%20Festival%20Gastronomico%20de%20Valen%C3%A7a.%20Foto%20Rosilda%20Cruz%20%2830085363051%29.jpg?width=800" alt="Moqueca baiana servida na panela de barro" loading="lazy">
+          <div class="food-info">
+            <span>BAHIA • LITORAL</span>
+            <h4>Moqueca baiana</h4>
+            <p>Peixe ou frutos do mar com leite de coco, dendê, tomate, pimentão e coentro.</p>
+            <button class="food-more" data-dish="Moqueca baiana|Peixe ou frutos do mar cozidos lentamente com leite de coco, azeite de dendê, tomate, cebola, pimentão e coentro. A moqueca mostra bem a mistura de culturas: junta técnicas indígenas de preparo do peixe, o dendê de origem africana e ingredientes trazidos pelos portugueses.">Saiba mais <span aria-hidden="true">+</span></button>
+          </div>
+        </article>
+        <article class="food-card reveal">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Munguza.jpg?width=800" alt="Tigela de mungunzá, doce de milho branco" loading="lazy">
+          <div class="food-info">
+            <span>NORDESTE • SUDESTE • SUL</span>
+            <h4>Mungunzá</h4>
+            <p>Milho branco cozido com leite, açúcar e canela. Também chamado de canjica.</p>
+            <button class="food-more" data-dish="Mungunzá|Doce de grãos de milho branco cozidos com leite (ou leite de coco), açúcar e canela. No Nordeste é chamado de mungunzá ou manguzá; no Sudeste e no Sul, de canjica. O nome vem do quimbundo, língua falada em Angola, de onde vieram muitas pessoas escravizadas trazidas ao Brasil.">Saiba mais <span aria-hidden="true">+</span></button>
+          </div>
+        </article>
+        <article class="food-card reveal">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Azeite%20de%20Dend%C3%AA%20-%20Feira%20das%20Sete%20Portas%20-%20Bahia.jpg?width=800" alt="Garrafas de azeite de dendê à venda em uma feira na Bahia" loading="lazy">
+          <div class="food-info">
+            <span>INGREDIENTE-CHAVE</span>
+            <h4>Azeite de dendê</h4>
+            <p>O óleo alaranjado que dá cor, aroma e sabor à cozinha baiana.</p>
+            <button class="food-more" data-dish="Azeite de dendê|Óleo extraído do fruto do dendezeiro, uma palmeira nativa da África Ocidental que foi trazida ao Brasil no período colonial. É a base da cozinha baiana de matriz africana e aparece no acarajé, no vatapá, no caruru e na moqueca.">Saiba mais <span aria-hidden="true">+</span></button>
+          </div>
+        </article>
+      </div>
+
+      <!-- 5) MITO OU FATO? -->
+      <!-- <details> começa fechado; ao clicar no <summary>, o navegador mostra o restante.
+           É acessível por padrão (funciona com teclado e leitor de tela). -->
+      <details class="myth-card reveal">
+        <summary>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Feijoada%20%C3%A0%20brasileira%201.jpg?width=800" alt="Prato de feijoada com arroz, couve e farofa" loading="lazy">
+          <span class="myth-text">
+            <span class="myth-tag">MITO OU FATO?</span>
+            <strong>"A feijoada foi criada nas senzalas, com as sobras de carne de porco."</strong>
+            <span class="myth-cta">Clique para descobrir <span aria-hidden="true">+</span></span>
+          </span>
+        </summary>
+        <div class="myth-answer">
+          <p><strong>Não há provas disso.</strong> Historiadores como Luís da Câmara Cascudo questionam essa versão. Ele via a feijoada como uma adaptação brasileira dos cozidos portugueses, feita com ingredientes daqui, como o feijão-preto e a carne-seca. Além disso, partes como orelha, pé e rabo do porco não eram "restos" desprezados na época.</p>
+          <p>O debate continua entre pesquisadores. O que se sabe é que a feijoada, como boa parte da nossa cozinha, é fruto do encontro de várias culturas. Desconfiar de histórias "bonitas demais" e procurar as fontes também é uma forma de valorizar a história verdadeira.</p>
+        </div>
+      </details>
+
+      <p class="culture-footnote contrib-footnote">Algumas dessas comidas também fazem parte de práticas religiosas de matriz africana, como o candomblé. Conhecer esses pratos com respeito é reconhecer a fé e os saberes de quem os mantém vivos.</p>
+    </section>
+
     <section class="section section-pad" id="personalidades">
-      <div class="section-heading reveal"><div><p class="eyebrow">03 / VOZES QUE ABRIRAM CAMINHOS</p><h2>Personalidades que<br><em>mudaram o Brasil.</em></h2></div><p class="section-intro">Conheça oito personalidades negras que contribuíram para a história, a literatura, a ciência, a política e a cultura.</p></div>
+      <div class="section-heading reveal"><div><p class="eyebrow">04 / VOZES QUE ABRIRAM CAMINHOS</p><h2>Personalidades que<br><em>mudaram o Brasil.</em></h2></div><p class="section-intro">Conheça oito personalidades negras que contribuíram para a história, a literatura, a ciência, a política e a cultura.</p></div>
       <div class="people-grid" id="peopleGrid">
-        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Zumbi%20e%20Dandara%20dos%20Palmares.png" alt="Ilustração artística de Dandara e Zumbi dos Palmares" loading="lazy"><span class="photo-label">ILUSTRAÇÃO</span></div><div class="person-info"><span>RESISTÊNCIA • SÉC. XVII</span><h3>Dandara dos Palmares</h3><p>Figura histórica associada à resistência no Quilombo dos Palmares e à luta contra a escravização.</p><button class="person-more" data-person="Dandara dos Palmares|Sua trajetória é lembrada pela participação na resistência de Palmares. Os registros históricos sobre sua vida são limitados; por isso, representações visuais devem ser identificadas como ilustrações, não como fotografias reais.">Ler perfil ↗</button></div></article>
-        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Machado%20de%20Assis%201904.jpg" alt="Fotografia histórica de Machado de Assis" loading="lazy"></div><div class="person-info"><span>LITERATURA • 1839–1908</span><h3>Machado de Assis</h3><p>Escritor e fundador da Academia Brasileira de Letras, autor de obras fundamentais da literatura brasileira.</p><button class="person-more" data-person="Machado de Assis|Joaquim Maria Machado de Assis foi escritor, cronista e dramaturgo. Entre suas obras mais conhecidas estão Memórias Póstumas de Brás Cubas e Dom Casmurro. Foi o primeiro presidente da Academia Brasileira de Letras.">Ler perfil ↗</button></div></article>
-        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Carolina%20Maria%20de%20Jesus%2C%201960%20cr.jpg" alt="Fotografia de Carolina Maria de Jesus em 1960" loading="lazy"></div><div class="person-info"><span>LITERATURA • 1914–1977</span><h3>Carolina Maria de Jesus</h3><p>Escritora que transformou vivências e observações do cotidiano em uma obra de grande força social.</p><button class="person-more" data-person="Carolina Maria de Jesus|Escritora brasileira, ficou conhecida pelo livro Quarto de Despejo: Diário de uma Favelada, publicado em 1960. Sua escrita registrou desigualdades sociais a partir de sua própria experiência.">Ler perfil ↗</button></div></article>
-        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Milton%20Santos%20%28TV%20Brasil%29.jpg" alt="Fotografia do geógrafo Milton Santos" loading="lazy"></div><div class="person-info"><span>GEOGRAFIA • 1926–2001</span><h3>Milton Santos</h3><p>Geógrafo brasileiro que renovou os estudos sobre espaço, território, globalização e sociedade.</p><button class="person-more" data-person="Milton Santos|Professor e geógrafo baiano, recebeu o Prêmio Vautrin Lud em 1994, considerado uma das maiores distinções da geografia. Sua obra analisou as relações entre território, economia, técnica e sociedade.">Ler perfil ↗</button></div></article>
-        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Abdias%20do%20Nascimento.jpg" alt="Fotografia de Abdias do Nascimento" loading="lazy"></div><div class="person-info"><span>ARTE E ATIVISMO • 1914–2011</span><h3>Abdias do Nascimento</h3><p>Ator, escritor, artista, político e referência na luta contra o racismo e pela valorização negra.</p><button class="person-more" data-person="Abdias do Nascimento|Fundou o Teatro Experimental do Negro em 1944. Atuou na política, nas artes e no movimento negro, defendendo a valorização da população afro-brasileira.">Ler perfil ↗</button></div></article>
-        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/L%C3%A9lia%20Gonzalez%20by%20Cezar%20Loureiro.jpg" alt="Retrato fotográfico de Lélia Gonzalez" loading="lazy"></div><div class="person-info"><span>PENSAMENTO • 1935–1994</span><h3>Lélia Gonzalez</h3><p>Intelectual, professora e ativista que contribuiu para o pensamento feminista negro no Brasil.</p><button class="person-more" data-person="Lélia Gonzalez|Filósofa, antropóloga, professora e ativista, contribuiu para debates sobre racismo, sexismo e cultura brasileira. Sua produção é referência para o feminismo negro latino-americano.">Ler perfil ↗</button></div></article>
-        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/ConceicaoEvaristo.jpg" alt="Fotografia da escritora Conceição Evaristo" loading="lazy"></div><div class="person-info"><span>LITERATURA • 1946–</span><h3>Conceição Evaristo</h3><p>Escritora cuja obra aborda memória, identidade, ancestralidade e experiências da população negra.</p><button class="person-more" data-person="Conceição Evaristo|Escritora e professora, desenvolveu o conceito de escrevivência, que relaciona escrita, memória e experiência. É autora de obras como Ponciá Vicêncio e Olhos d’Água.">Ler perfil ↗</button></div></article>
-        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Zumbi%20dos%20Palmares%2C%20representa%C3%A7%C3%A3o.jpg" alt="Representação artística de Zumbi dos Palmares" loading="lazy"><span class="photo-label">REPRESENTAÇÃO</span></div><div class="person-info"><span>RESISTÊNCIA • SÉC. XVII</span><h3>Zumbi dos Palmares</h3><p>Liderança do Quilombo dos Palmares, tornou-se símbolo da resistência negra à escravização.</p><button class="person-more" data-person="Zumbi dos Palmares|Zumbi foi uma das lideranças do Quilombo dos Palmares, na região da atual Alagoas. Sua memória está ligada à resistência contra a escravização. Não existe fotografia contemporânea de Zumbi; imagens conhecidas são representações artísticas.">Ler perfil ↗</button></div></article>
+        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Zumbi%20e%20Dandara%20dos%20Palmares.png?width=800" alt="Ilustração artística de Dandara e Zumbi dos Palmares" loading="lazy"><span class="photo-label">ILUSTRAÇÃO • DANDARA E ZUMBI</span></div><div class="person-info"><span>RESISTÊNCIA • SÉC. XVII</span><h3>Dandara dos Palmares</h3><p>Figura histórica associada à resistência no Quilombo dos Palmares e à luta contra a escravização.</p><button class="person-more" data-person="Dandara dos Palmares|Sua trajetória é lembrada pela participação na resistência de Palmares. Os registros históricos sobre sua vida são limitados; por isso, representações visuais devem ser identificadas como ilustrações, não como fotografias reais.">Ler perfil <span aria-hidden="true">↗</span></button></div></article>
+        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Machado%20de%20Assis%201904.jpg?width=800" alt="Fotografia histórica de Machado de Assis" loading="lazy"></div><div class="person-info"><span>LITERATURA • 1839–1908</span><h3>Machado de Assis</h3><p>Escritor e fundador da Academia Brasileira de Letras, autor de obras fundamentais da literatura brasileira.</p><button class="person-more" data-person="Machado de Assis|Joaquim Maria Machado de Assis foi escritor, cronista e dramaturgo. Entre suas obras mais conhecidas estão Memórias Póstumas de Brás Cubas e Dom Casmurro. Foi o primeiro presidente da Academia Brasileira de Letras.">Ler perfil <span aria-hidden="true">↗</span></button></div></article>
+        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Carolina%20Maria%20de%20Jesus%2C%201960%20cr.jpg?width=800" alt="Fotografia de Carolina Maria de Jesus em 1960" loading="lazy"></div><div class="person-info"><span>LITERATURA • 1914–1977</span><h3>Carolina Maria de Jesus</h3><p>Escritora que transformou vivências e observações do cotidiano em uma obra de grande força social.</p><button class="person-more" data-person="Carolina Maria de Jesus|Escritora brasileira, ficou conhecida pelo livro Quarto de Despejo: Diário de uma Favelada, publicado em 1960. Sua escrita registrou desigualdades sociais a partir de sua própria experiência.">Ler perfil <span aria-hidden="true">↗</span></button></div></article>
+        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Milton%20Santos%20%28TV%20Brasil%29.jpg?width=800" alt="Fotografia do geógrafo Milton Santos" loading="lazy"></div><div class="person-info"><span>GEOGRAFIA • 1926–2001</span><h3>Milton Santos</h3><p>Geógrafo brasileiro que renovou os estudos sobre espaço, território, globalização e sociedade.</p><button class="person-more" data-person="Milton Santos|Professor e geógrafo baiano, recebeu o Prêmio Vautrin Lud em 1994, considerado uma das maiores distinções da geografia. Sua obra analisou as relações entre território, economia, técnica e sociedade.">Ler perfil <span aria-hidden="true">↗</span></button></div></article>
+        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Abdias%20do%20Nascimento.jpg?width=800" alt="Fotografia de Abdias do Nascimento" loading="lazy"></div><div class="person-info"><span>ARTE E ATIVISMO • 1914–2011</span><h3>Abdias do Nascimento</h3><p>Ator, escritor, artista, político e referência na luta contra o racismo e pela valorização negra.</p><button class="person-more" data-person="Abdias do Nascimento|Fundou o Teatro Experimental do Negro em 1944. Atuou na política, nas artes e no movimento negro, defendendo a valorização da população afro-brasileira.">Ler perfil <span aria-hidden="true">↗</span></button></div></article>
+        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/L%C3%A9lia%20Gonzalez%20by%20Cezar%20Loureiro.jpg?width=800" alt="Retrato fotográfico de Lélia Gonzalez" loading="lazy"></div><div class="person-info"><span>PENSAMENTO • 1935–1994</span><h3>Lélia Gonzalez</h3><p>Intelectual, professora e ativista que contribuiu para o pensamento feminista negro no Brasil.</p><button class="person-more" data-person="Lélia Gonzalez|Filósofa, antropóloga, professora e ativista, contribuiu para debates sobre racismo, sexismo e cultura brasileira. Sua produção é referência para o feminismo negro latino-americano.">Ler perfil <span aria-hidden="true">↗</span></button></div></article>
+        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/ConceicaoEvaristo.jpg?width=800" alt="Fotografia da escritora Conceição Evaristo" loading="lazy"></div><div class="person-info"><span>LITERATURA • 1946–</span><h3>Conceição Evaristo</h3><p>Escritora cuja obra aborda memória, identidade, ancestralidade e experiências da população negra.</p><button class="person-more" data-person="Conceição Evaristo|Escritora e professora, desenvolveu o conceito de escrevivência, que relaciona escrita, memória e experiência. É autora de obras como Ponciá Vicêncio e Olhos d’Água.">Ler perfil <span aria-hidden="true">↗</span></button></div></article>
+        <article class="person-card reveal"><div class="person-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Zumbi%20dos%20Palmares%2C%20representa%C3%A7%C3%A3o.jpg?width=800" alt="Representação artística de Zumbi dos Palmares" loading="lazy"><span class="photo-label">REPRESENTAÇÃO</span></div><div class="person-info"><span>RESISTÊNCIA • SÉC. XVII</span><h3>Zumbi dos Palmares</h3><p>Liderança do Quilombo dos Palmares, tornou-se símbolo da resistência negra à escravização.</p><button class="person-more" data-person="Zumbi dos Palmares|Zumbi foi uma das lideranças do Quilombo dos Palmares, na região da atual Alagoas. Sua memória está ligada à resistência contra a escravização. Não existe fotografia contemporânea de Zumbi; imagens conhecidas são representações artísticas.">Ler perfil <span aria-hidden="true">↗</span></button></div></article>
       </div>
       <p class="photo-disclaimer">Nota sobre as imagens: Dandara e Zumbi viveram no século XVII, antes da existência da fotografia. Por isso, suas imagens são representações artísticas, identificadas como tal — não fotografias reais.</p>
     </section>
 
     <section class="resistance-section section-pad" id="resistencia">
-      <div class="section-heading light reveal"><div><p class="eyebrow">04 / PRESENTE E FUTURO</p><h2>Resistir também é<br><em>construir igualdade.</em></h2></div><p class="section-intro">A Consciência Negra não se limita a uma data: é compromisso diário com respeito, oportunidades e reconhecimento.</p></div>
+      <div class="section-heading light reveal"><div><p class="eyebrow">05 / PRESENTE E FUTURO</p><h2>Resistir também é<br><em>construir igualdade.</em></h2></div><p class="section-intro">A Consciência Negra não se limita a uma data: é compromisso diário com respeito, oportunidades e reconhecimento.</p></div>
+      <!-- MELHORIA: aria-hidden="true" nos ícones e setas decorativos (✊🏿 ⚖ ◉ ↗ ↓ …).
+           Sem isso, o leitor de tela lê "seta para cima à direita" no meio das frases. -->
       <div class="values-grid">
-        <article class="value-card reveal"><div class="value-icon">✊🏿</div><span>01</span><h3>Combate ao racismo</h3><p>Reconhecer o racismo e agir contra atitudes discriminatórias é responsabilidade de toda a sociedade.</p></article>
-        <article class="value-card reveal"><div class="value-icon">⚖</div><span>02</span><h3>Igualdade racial</h3><p>Garantir direitos, oportunidades e acesso justo a espaços de educação, cultura e trabalho.</p></article>
-        <article class="value-card reveal"><div class="value-icon">◉</div><span>03</span><h3>Representatividade</h3><p>Ampliar a presença e a valorização de pessoas negras em todos os espaços sociais.</p></article>
+        <article class="value-card reveal"><div class="value-icon" aria-hidden="true">✊🏿</div><span>01</span><h3>Combate ao racismo</h3><p>Reconhecer o racismo e agir contra atitudes discriminatórias é responsabilidade de toda a sociedade.</p></article>
+        <article class="value-card reveal"><div class="value-icon" aria-hidden="true">⚖</div><span>02</span><h3>Igualdade racial</h3><p>Garantir direitos, oportunidades e acesso justo a espaços de educação, cultura e trabalho.</p></article>
+        <article class="value-card reveal"><div class="value-icon" aria-hidden="true">◉</div><span>03</span><h3>Representatividade</h3><p>Ampliar a presença e a valorização de pessoas negras em todos os espaços sociais.</p></article>
       </div>
-      <div class="resistance-photo-row reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Passeata%20da%20Consci%C3%AAncia%20Negra%202008.jpg" alt="Manifestação pública do Dia da Consciência Negra" loading="lazy"><div><p class="eyebrow">EDUCAÇÃO ANTIRRACISTA</p><h3>Conhecimento também é uma forma de transformação.</h3><p>Valorizar autores, artistas, cientistas e lideranças negras amplia referências e ajuda a construir uma sociedade que respeita sua diversidade.</p><a class="btn btn-outline" href="https://www.gov.br/mec/pt-br" target="_blank" rel="noopener">Educação e cidadania ↗</a></div></div>
+      <div class="resistance-photo-row reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Passeata%20da%20Consci%C3%AAncia%20Negra%202008.jpg?width=1200" alt="Manifestação pública do Dia da Consciência Negra" loading="lazy"><div><p class="eyebrow">EDUCAÇÃO ANTIRRACISTA</p><h3>Conhecimento também é uma forma de transformação.</h3><p>Valorizar autores, artistas, cientistas e lideranças negras amplia referências e ajuda a construir uma sociedade que respeita sua diversidade.</p><a class="btn btn-outline" href="https://www.gov.br/mec/pt-br" target="_blank" rel="noopener">Educação e cidadania <span aria-hidden="true">↗</span></a></div></div>
       <div class="reflection reveal"><p class="eyebrow">PENSE SOBRE ISSO</p><h3>Que atitude pode tornar sua escola e sua comunidade mais respeitosas e inclusivas?</h3><textarea id="reflectionInput" placeholder="Escreva sua reflexão aqui..." rows="3" aria-label="Sua reflexão"></textarea><button class="btn btn-gold" id="saveReflection">Guardar reflexão neste dispositivo</button><p class="reflection-feedback" id="reflectionFeedback" aria-live="polite"></p></div>
     </section>
 
     <section class="gallery-section section-pad" id="galeria">
-      <div class="section-heading reveal"><div><p class="eyebrow">05 / EXPOSIÇÃO DIGITAL</p><h2>Galeria cultural<br><em>em outra dimensão.</em></h2></div><p class="section-intro">Explore formas, símbolos e referências visuais. Arraste para girar os objetos, use a roda do mouse ou os botões para aproximar e afastar.</p></div>
-      <div class="gallery-layout reveal"><div class="three-stage"><div class="three-loading" id="threeLoading">Preparando a galeria tridimensional...</div><canvas id="cultureCanvas" aria-label="Objeto cultural tridimensional interativo"></canvas><div class="stage-label"><span>OBJETO EM DESTAQUE</span><strong id="objectTitle">Forma ancestral</strong></div><div class="stage-controls"><button id="rotateLeft" aria-label="Girar para a esquerda">↶</button><button id="zoomOut" aria-label="Afastar">−</button><button id="zoomIn" aria-label="Aproximar">+</button><button id="rotateRight" aria-label="Girar para a direita">↷</button><button id="reset3D" aria-label="Reiniciar visualização">⟲</button></div></div>
-        <aside class="gallery-info"><p class="eyebrow">ACERVO INTERATIVO</p><h3 id="objectHeading">Geometria e ancestralidade</h3><p id="objectDescription">Padrões geométricos aparecem em diferentes expressões artísticas do continente africano e de suas diásporas. Cada forma tem contexto próprio: não existe uma única estética africana.</p><div class="object-picker"><button class="object-choice active" data-object="0"><span>01</span><b>Forma geométrica</b><i>◆</i></button><button class="object-choice" data-object="1"><span>02</span><b>Máscara estilizada</b><i>◈</i></button><button class="object-choice" data-object="2"><span>03</span><b>Tambor simbólico</b><i>◉</i></button></div><p class="gallery-note">Modelos tridimensionais estilizados criados com geometria digital para fins educativos. Não representam objetos sagrados específicos.</p></aside></div>
-      <div class="gallery-photo-strip"><figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/The%20colors%20of%20maracatu.jpg" alt="Cores e vestimentas de maracatu" loading="lazy"><figcaption>Maracatu • Pernambuco</figcaption></figure><figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tambor%20de%20crioula.jpg" alt="Manifestação do tambor de crioula" loading="lazy"><figcaption>Tambor de crioula • Maranhão</figcaption></figure><figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Colors%20in%20Motion%2C%20Yemanj%C3%A1%E2%80%99s%20Celebration.jpg" alt="Celebração cultural em homenagem a Iemanjá" loading="lazy"><figcaption>Festa e tradição • Bahia</figcaption></figure></div>
+      <div class="section-heading reveal"><div><p class="eyebrow">06 / EXPOSIÇÃO DIGITAL</p><h2>Galeria cultural<br><em>em outra dimensão.</em></h2></div><p class="section-intro">Explore formas, símbolos e referências visuais. Arraste para girar os objetos. Para aproximar e afastar, use os botões ou segure <kbd>Ctrl</kbd> e gire a roda do mouse.</p></div>
+      <div class="gallery-layout reveal"><div class="three-stage"><div class="three-loading" id="threeLoading">Preparando a galeria tridimensional...</div><!-- MELHORIA: tabindex="0" deixa o canvas focável pelo teclado (setas giram, + e − dão zoom). -->
+        <canvas id="cultureCanvas" tabindex="0" aria-label="Objeto cultural tridimensional interativo. Use as setas para girar e as teclas mais e menos para aproximar."></canvas><div class="stage-label"><span>OBJETO EM DESTAQUE</span><strong id="objectTitle">Forma ancestral</strong></div><div class="stage-controls"><button id="rotateLeft" aria-label="Girar para a esquerda">↶</button><button id="zoomOut" aria-label="Afastar">−</button><button id="zoomIn" aria-label="Aproximar">+</button><button id="rotateRight" aria-label="Girar para a direita">↷</button><button id="reset3D" aria-label="Reiniciar visualização">⟲</button></div></div>
+        <aside class="gallery-info"><p class="eyebrow">ACERVO INTERATIVO</p><h3 id="objectHeading">Geometria e ancestralidade</h3><p id="objectDescription">Padrões geométricos aparecem em diferentes expressões artísticas do continente africano e de suas diásporas. Cada forma tem contexto próprio: não existe uma única estética africana.</p><div class="object-picker"><button class="object-choice active" data-object="0" aria-pressed="true"><span>01</span><b>Forma geométrica</b><i aria-hidden="true">◆</i></button><button class="object-choice" data-object="1" aria-pressed="false"><span>02</span><b>Máscara estilizada</b><i aria-hidden="true">◈</i></button><button class="object-choice" data-object="2" aria-pressed="false"><span>03</span><b>Tambor simbólico</b><i aria-hidden="true">◉</i></button></div><p class="gallery-note">Modelos tridimensionais estilizados criados com geometria digital para fins educativos. Não representam objetos sagrados específicos.</p></aside></div>
+      <div class="gallery-photo-strip"><figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/The%20colors%20of%20maracatu.jpg?width=800" alt="Cores e vestimentas de maracatu" loading="lazy"><figcaption>Maracatu • Pernambuco</figcaption></figure><figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tambor%20de%20crioula.jpg?width=800" alt="Manifestação do tambor de crioula" loading="lazy"><figcaption>Tambor de crioula • Maranhão</figcaption></figure><figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Colors%20in%20Motion%2C%20Yemanj%C3%A1%E2%80%99s%20Celebration.jpg?width=800" alt="Celebração cultural em homenagem a Iemanjá" loading="lazy"><figcaption>Festa e tradição • Bahia</figcaption></figure></div>
     </section>
 
-    <section class="closing-section section-pad" id="encerramento"><div class="closing-pattern"></div><p class="eyebrow">NOSSA HISTÓRIA CONTINUA</p><h2>Conhecer nossas raízes é reconhecer nossa história.</h2><p>Valorizar nossa história é construir um futuro com respeito, igualdade e representatividade.</p><a class="btn btn-gold" href="#topo">Voltar ao início ↑</a><div class="closing-signature">NOSSAS RAÍZES CONTAM HISTÓRIAS. NOSSA HISTÓRIA CONSTRÓI O FUTURO.</div></section>
+    <section class="closing-section section-pad" id="encerramento"><div class="closing-pattern"></div><p class="eyebrow">NOSSA HISTÓRIA CONTINUA</p><h2>Conhecer nossas raízes é reconhecer nossa história.</h2><p>Valorizar nossa história é construir um futuro com respeito, igualdade e representatividade.</p><a class="btn btn-gold" href="#topo">Voltar ao início <span aria-hidden="true">↑</span></a><div class="closing-signature">NOSSAS RAÍZES CONTAM HISTÓRIAS. NOSSA HISTÓRIA CONSTRÓI O FUTURO.</div></section>
+
+    <!-- MELHORIA: seção de CRÉDITOS DAS IMAGENS.
+         Muitas fotos do Wikimedia Commons usam licenças Creative Commons (CC BY e CC BY-SA).
+         Essas licenças permitem usar a imagem DESDE QUE a página informe:
+           1) o título/link da obra, 2) o autor e 3) a licença (com link).
+         Imagens em "domínio público" não exigem crédito, mas citar a fonte é uma boa prática.
+         Ao trocar ou incluir uma imagem, lembre-se de atualizar esta lista! -->
+    <section class="credits-section section-pad" id="creditos" aria-labelledby="creditosTitulo">
+      <p class="eyebrow">FONTES E LICENÇAS</p>
+      <h2 id="creditosTitulo">Créditos das imagens</h2>
+      <p class="credits-intro">Todas as imagens vêm do <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>. Clique no título para ver a página original de cada arquivo.</p>
+      <ol class="credits-list">
+          <li><a href="https://commons.wikimedia.org/wiki/File:Zumbi_dos_palmares.jpg" target="_blank" rel="noopener">Escultura em homenagem a Zumbi dos Palmares</a> — Gorivero • <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Maracatu_Guerreiro.jpg" target="_blank" rel="noopener">Maracatu Guerreiro</a> — Ney Douglas • <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Capoeira_in_Bahia_1835.jpg" target="_blank" rel="noopener">Capoeira na Bahia (1835)</a> — Johann Moritz Rugendas • Domínio público</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Afro-Brazilian_Art_in_Salvador.jpg" target="_blank" rel="noopener">Arte afro-brasileira em Salvador</a> — Paul White • <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Acaraj%C3%A9_na_Bahia.jpg" target="_blank" rel="noopener">Acarajé na Bahia</a> — Nahtanom • <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Zumbi_e_Dandara_dos_Palmares.png" target="_blank" rel="noopener">Zumbi e Dandara dos Palmares (ilustração)</a> — EPTrilhas • <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Machado_de_Assis_1904.jpg" target="_blank" rel="noopener">Machado de Assis (1904)</a> — Autor desconhecido • Domínio público</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Carolina_Maria_de_Jesus%2C_1960_cr.jpg" target="_blank" rel="noopener">Carolina Maria de Jesus (1960)</a> — Autor desconhecido • Domínio público</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Milton_Santos_%28TV_Brasil%29.jpg" target="_blank" rel="noopener">Milton Santos</a> — TV Brasil • <a href="https://creativecommons.org/licenses/by/3.0/br/" target="_blank" rel="noopener">CC BY 3.0 BR</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Abdias_do_Nascimento.jpg" target="_blank" rel="noopener">Abdias do Nascimento (2006)</a> — Ricardo Stuckert/PR • <a href="https://creativecommons.org/licenses/by/3.0/br/" target="_blank" rel="noopener">CC BY 3.0 BR</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:L%C3%A9lia_Gonzalez_by_Cezar_Loureiro.jpg" target="_blank" rel="noopener">Lélia Gonzalez</a> — Cezar Loureiro • Domínio público</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:ConceicaoEvaristo.jpg" target="_blank" rel="noopener">Conceição Evaristo</a> — Fora do Eixo • <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Zumbi_dos_Palmares%2C_representa%C3%A7%C3%A3o.jpg" target="_blank" rel="noopener">Zumbi dos Palmares (representação artística)</a> — Águas d'Oxum • <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Passeata_da_Consci%C3%AAncia_Negra_2008.jpg" target="_blank" rel="noopener">Passeata da Consciência Negra (2008)</a> — cassimano • <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:The_colors_of_maracatu.jpg" target="_blank" rel="noopener">As cores do maracatu</a> — Jarre Debson • <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Tambor_de_crioula.jpg" target="_blank" rel="noopener">Tambor de crioula</a> — Weber Ferreira Santana • <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Colors_in_Motion%2C_Yemanj%C3%A1%E2%80%99s_Celebration.jpg" target="_blank" rel="noopener">Festa de Iemanjá</a> — Sofiavellar • <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></li>
+          <!-- Imagens da seção Contribuições (capoeira e comidas típicas) -->
+          <li><a href="https://commons.wikimedia.org/wiki/File:Roda_de_Capoeira_dos_Mestres_veteranos.jpg" target="_blank" rel="noopener">Roda de capoeira dos mestres veteranos</a> — Turismo Bahia • <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Capoeira_Angola_instruments.jpg" target="_blank" rel="noopener">Instrumentos da capoeira angola</a> — virtual comandante • <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Baiana-acaraj%C3%A9-Salvador.jpg" target="_blank" rel="noopener">Baiana de acarajé em Salvador</a> — Rodrigues Pozzebom/Agência Brasil • <a href="https://creativecommons.org/licenses/by/3.0/br/" target="_blank" rel="noopener">CC BY 3.0 BR</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Vatap%C3%A1.jpg" target="_blank" rel="noopener">Vatapá</a> — Elingunnur • <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Caruru_feito_com_quiabo.jpg" target="_blank" rel="noopener">Caruru feito com quiabo</a> — CAROLNAWIKI • <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0 (domínio público)</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Moqueca._Festival_Gastronomico_de_Valen%C3%A7a._Foto_Rosilda_Cruz_%2830085363051%29.jpg" target="_blank" rel="noopener">Moqueca baiana</a> — Rosilda Cruz/Turismo Bahia • <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Munguza.jpg" target="_blank" rel="noopener">Mungunzá</a> — Eurritimia • <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Azeite_de_Dend%C3%AA_-_Feira_das_Sete_Portas_-_Bahia.jpg" target="_blank" rel="noopener">Azeite de dendê na Feira das Sete Portas</a> — SouDiana • <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Feijoada_%C3%A0_brasileira_1.jpg" target="_blank" rel="noopener">Feijoada à brasileira</a> — Melsj • <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></li>
+      </ol>
+      <!-- Créditos dos ÁUDIOS da trilha sonora -->
+      <h3 class="credits-subtitulo">Áudios da trilha sonora (Wikimedia Commons e Freesound)</h3>
+      <ol class="credits-list">
+          <li><a href="https://commons.wikimedia.org/wiki/File:I%C3%BAna.ogg" target="_blank" rel="noopener">Toque de Iúna (três berimbaus)</a> — Djino, 2008 • Domínio público</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Santa_maria.ogg" target="_blank" rel="noopener">Toque de Santa Maria (três berimbaus)</a> — Djino, 2008 • <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Toque-de-angola.ogg" target="_blank" rel="noopener">Toque de Angola</a> — autor não informado • Domínio público</li>
+          <!-- Músicas de roda: gravações do Freesound (freesound.org) -->
+          <li><a href="https://freesound.org/people/arthur_parmentier/sounds/455955/" target="_blank" rel="noopener">Lapa – Capoeira (roda na feira da Lapa, Rio de Janeiro)</a> — arthur_parmentier, 2018 • <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></li>
+          <li><a href="https://freesound.org/people/kevp888/sounds/485966/" target="_blank" rel="noopener">190921_0664_FR_Capoeira (roda de rua em Nanterre, França)</a> — kevp888 (Kevin Luce), 2019 • <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></li>
+          <li><a href="https://freesound.org/people/kevp888/sounds/485967/" target="_blank" rel="noopener">190921_0665_FR_Capoeira (roda de rua em Nanterre, França)</a> — kevp888 (Kevin Luce), 2019 • <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></li>
+      </ol>
+      <p class="credits-intro">Os objetos da Galeria 3D, os modelos dos instrumentos e os capoeiristas em 3D foram criados pelo próprio projeto com a biblioteca <a href="https://threejs.org" target="_blank" rel="noopener">Three.js</a> (licença MIT).</p>
+    </section>
   </main>
+
+  <!-- NOVO: TRILHA SONORA (js/trilha-sonora.js)
+       Fica fixa no canto da tela. A música NUNCA começa sozinha: só toca
+       quando a pessoa clica em "Tocar" (regra dos navegadores e de acessibilidade).
+       hidden: o painel começa fechado; o botão "Trilha sonora" abre e fecha. -->
+  <aside class="trilha" id="trilhaSonora" aria-label="Trilha sonora">
+    <div class="trilha-painel" id="trilhaPainel" hidden>
+      <p class="trilha-titulo">Trilha sonora</p>
+      <label class="trilha-label" for="trilhaToque">Escolha o que ouvir</label>
+      <!-- <optgroup> agrupa as opções do <select> com um título (não pode ser escolhido). -->
+      <select id="trilhaToque">
+        <optgroup label="Toques de berimbau">
+          <option value="iuna">Iúna</option>
+          <option value="santamaria">Santa Maria</option>
+          <option value="angola">Angola</option>
+        </optgroup>
+        <optgroup label="Músicas de roda (com canto)">
+          <option value="lapa">Roda na Lapa (Rio de Janeiro)</option>
+          <option value="nanterre1">Roda de rua na França (parte 1)</option>
+          <option value="nanterre2">Roda de rua na França (parte 2)</option>
+        </optgroup>
+      </select>
+      <p class="trilha-descricao" id="trilhaDescricao"></p>
+      <div class="trilha-controles">
+        <button class="trilha-tocar" id="trilhaTocar" aria-pressed="false"><span class="trilha-icone" aria-hidden="true">▶</span> <span class="trilha-rotulo">Tocar</span></button>
+        <label class="trilha-volume">Volume <input type="range" id="trilhaVolume" min="0" max="1" step="0.05" value="0.6"></label>
+      </div>
+      <p class="trilha-status" id="trilhaStatus" role="status"></p>
+      <p class="trilha-credito" id="trilhaCredito"></p>
+    </div>
+    <button class="trilha-abrir" id="trilhaAbrir" aria-expanded="false" aria-controls="trilhaPainel">
+      <span class="trilha-eq" aria-hidden="true"><i></i><i></i><i></i></span> Trilha sonora
+    </button>
+    <!-- preload="none": o áudio só é baixado quando a pessoa der play (economiza internet). -->
+    <audio id="trilhaAudio" preload="none"></audio>
+  </aside>
 
   <footer class="site-footer">
     <a class="brand" href="#inicio"><span class="brand-mark">R</span><span>RAÍZES<small>CULTURA • HISTÓRIA • IDENTIDADE</small></span></a>
-    <div class="footer-credit"><p>Projeto educativo • Consciência Negra • 2026</p><p>Desenvolvido por <strong>Douglas Silvino de Sousa</strong></p><p>Com orientação do professor <strong>Matheus</strong></p></div>
-    <a href="#topo">Voltar ao início ↑</a>
+    <!-- MELHORIA: créditos completos da equipe e da instituição. -->
+    <div class="footer-credit">
+      <p>Projeto extracurricular em alusão ao Dia da Consciência Negra • 2026</p>
+      <p>Instituto Federal do Tocantins (IFTO) – Campus Formoso do Araguaia</p>
+      <p>Desenvolvido pelo aluno <strong>Douglas Silvino de Sousa</strong></p>
+      <p>Orientação: <strong>Prof. Mateus Rodrigues</strong>, professor EBTT de Informática</p>
+      <p><a href="#creditos">Créditos das imagens</a></p>
+    </div>
+    <a href="#topo">Voltar ao início <span aria-hidden="true">↑</span></a>
   </footer>
 
-  <div class="modal" id="infoModal" aria-hidden="true"><div class="modal-backdrop" data-close-modal></div><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" data-close-modal aria-label="Fechar">×</button><p class="eyebrow">SAIBA MAIS</p><h3 id="modalTitle">Título</h3><p id="modalText"></p></div></div>
+  <div class="modal" id="infoModal" aria-hidden="true"><div class="modal-backdrop" data-close-modal></div><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" data-close-modal aria-label="Fechar"><span aria-hidden="true">×</span></button><p class="eyebrow">SAIBA MAIS</p><h3 id="modalTitle">Título</h3><p id="modalText"></p></div></div>
   <script src="js/navigation.js" defer></script>
   <script src="js/animations.js" defer></script>
   <script src="js/timeline.js" defer></script>
   <script src="js/main.js" defer></script>
+  <!-- NOVO: interações da seção Contribuições. Vem DEPOIS do main.js porque usa a função abrirModal, criada lá. -->
+  <script src="js/contribuicoes.js" defer></script>
+  <!-- NOVO: player da trilha sonora (script comum, não precisa de "import"). -->
+  <script src="js/trilha-sonora.js" defer></script>
   <script type="module" src="js/three-scene.js"></script>
+  <!-- NOVO: modelos 3D dos instrumentos. type="module" porque usa "import" do Three.js. -->
+  <script type="module" src="js/instrumentos-3d.js"></script>
+  <!-- NOVO: os dois capoeiristas em 3D. -->
+  <script type="module" src="js/capoeiristas-3d.js"></script>
 </body>
 </html>

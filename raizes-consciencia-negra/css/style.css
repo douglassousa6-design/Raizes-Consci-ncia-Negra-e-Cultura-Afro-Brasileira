@@ -9,7 +9,9 @@
   --beige: #f2e8d5;
   --cream: #fbf7ef;
   --ink: #282019;
-  --muted: #817568;
+  /* MELHORIA: #817568 tinha contraste 4,2:1 sobre o fundo creme, abaixo do mínimo
+     de 4,5:1 recomendado pela WCAG (norma de acessibilidade). #6b5f53 tem 5,8:1. */
+  --muted: #6b5f53;
   --line: rgba(40,32,25,.14);
   --serif: 'Playfair Display',Georgia,serif;
   --sans: 'DM Sans',Arial,sans-serif;
@@ -643,8 +645,9 @@ h1 em,h2 em {
   font-weight: 700;
 }
 .photo-disclaimer {
-  font-size: 10px;
-  color: #82776c;
+  /* MELHORIA: texto maior (10px era difícil de ler) e cor com contraste adequado. */
+  font-size: 13px;
+  color: var(--muted);
   margin-top: 22px;
 }
 .values-grid {

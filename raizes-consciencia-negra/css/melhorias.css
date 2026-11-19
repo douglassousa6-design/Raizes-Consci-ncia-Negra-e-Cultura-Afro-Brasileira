@@ -1,0 +1,762 @@
+/* =========================================================
+   melhorias.css — MELHORIA: arquivo novo, criado na revisão do projeto
+   ---------------------------------------------------------
+   Este arquivo é carregado DEPOIS dos outros (veja o <head>
+   do index.html). Por isso, quando uma regra daqui tem a mesma
+   força de outra regra anterior, a daqui vence (cascata do CSS).
+   ========================================================= */
+
+/* ---------- 1. FOCO VISÍVEL ----------
+   Quem navega com a tecla Tab precisa VER qual elemento está selecionado.
+   :focus-visible aparece só na navegação por teclado (não ao clicar com o mouse),
+   então não atrapalha o visual para quem usa mouse. */
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+/* Nas seções claras, o dourado tem pouco contraste: usamos um marrom escuro. */
+.section :focus-visible,
+.credits-section :focus-visible,
+.modal-box :focus-visible {
+  outline-color: var(--brown);
+}
+/* O <main> recebe foco pelo link "pular", mas não precisa de contorno. */
+main:focus { outline: none; }
+
+/* ---------- 2. LINK "PULAR PARA O CONTEÚDO" ----------
+   Fica fora da tela (top negativo) e só desce quando recebe foco. */
+.skip-link {
+  position: fixed;
+  top: -60px;
+  left: 16px;
+  z-index: 1000;
+  padding: 10px 18px;
+  background: var(--gold);
+  color: var(--black);
+  font-weight: 700;
+  transition: top .2s;
+}
+.skip-link:focus { top: 12px; }
+
+/* ---------- 3. AVISO SEM JAVASCRIPT ---------- */
+.noscript-aviso {
+  margin: 0;
+  padding: 12px 8%;
+  background: var(--gold-light);
+  color: var(--black);
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ---------- 4. ALTO CONTRASTE NAS SEÇÕES ESCURAS ----------
+   Antes, o modo alto contraste só mudava as variáveis das seções CLARAS.
+   As seções escuras (Cultura, Resistência, Galeria, Rodapé) continuavam iguais.
+   Aqui deixamos o fundo preto puro e os textos claros em branco. */
+body.high-contrast .culture-section,
+body.high-contrast .resistance-section,
+body.high-contrast .site-footer {
+  background: #000;
+}
+body.high-contrast .section-heading.light .section-intro,
+body.high-contrast .footer-credit p,
+body.high-contrast .site-footer p,
+body.high-contrast .culture-footnote {
+  color: #fff;
+}
+body.high-contrast .timeline-card p,
+body.high-contrast .modal-box p:last-child {
+  color: #000;
+}
+body.high-contrast .culture-overlay {
+  background: rgba(0, 0, 0, .88);
+}
+
+/* ---------- 5. IMAGEM QUE NÃO CARREGOU ----------
+   Classe colocada pelo main.js quando uma imagem externa falha. */
+.imagem-indisponivel {
+  position: relative;
+  background: repeating-linear-gradient(45deg, #2a201a, #2a201a 10px, #241b16 10px, #241b16 20px);
+}
+.imagem-indisponivel .img-falhou { opacity: 0; }
+.imagem-indisponivel::after {
+  content: 'Imagem indisponível no momento';
+  position: absolute;
+  inset: auto 0 45% 0;
+  text-align: center;
+  color: var(--gold-light);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* ---------- 6. TECLA <kbd> (usada no texto da galeria) ---------- */
+kbd {
+  font-family: inherit;
+  font-size: .85em;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+}
+
+/* ---------- 7. CANVAS 3D ----------
+   Mostra a "mãozinha de agarrar" para indicar que dá para arrastar. */
+#cultureCanvas { cursor: grab; }
+#cultureCanvas:active { cursor: grabbing; }
+
+/* ---------- 8. SEÇÃO DE CRÉDITOS DAS IMAGENS ---------- */
+.credits-section {
+  background: var(--beige);
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+.credits-section h2 {
+  font: 700 clamp(28px, 4vw, 40px) var(--serif); /* clamp = tamanho mínimo, ideal e máximo */
+  margin: 8px 0 12px;
+}
+.credits-intro {
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 760px;
+}
+.credits-list {
+  /* columns divide a lista em colunas automaticamente, como num jornal */
+  columns: 2 360px;
+  column-gap: 48px;
+  margin: 28px 0;
+  padding-left: 22px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.credits-list li {
+  break-inside: avoid; /* não deixa um item ser cortado entre duas colunas */
+  margin-bottom: 8px;
+}
+.credits-section a,
+.footer-credit a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer-credit a { color: var(--gold-light); }
+
+/* ---------- 9. TEXTOS PEQUENOS DO RODAPÉ ----------
+   10px é muito pequeno para leitura confortável; subimos para 12px. */
+.site-footer p,
+.footer-credit p { font-size: 12px; }
+
+/* =========================================================
+   10. SEÇÃO CONTRIBUIÇÕES (capoeira e comidas típicas)
+   ========================================================= */
+.contrib-section {
+  background: var(--beige);
+}
+
+/* ---- Bloco da capoeira: foto à esquerda, texto à direita ----
+   grid-template-columns com "fr" divide o espaço em frações:
+   1.1fr + 1fr = a foto fica um pouco mais larga que o texto. */
+.contrib-block {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.contrib-figure {
+  margin: 0;
+}
+.contrib-figure img {
+  width: 100%;
+  height: 460px;
+  object-fit: cover; /* corta a imagem para preencher o espaço sem deformar */
+  display: block;
+}
+.contrib-figure figcaption {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+.contrib-text h3,
+.instrumentos-texto h3,
+.food-heading h3 {
+  font: 700 clamp(24px, 3vw, 32px) var(--serif);
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+.contrib-text p,
+.instrumentos-texto > p,
+.food-heading > p {
+  font-size: 15px;
+  color: var(--ink);
+}
+
+/* ---- Marcos históricos da capoeira ----
+   list-style: none tira os números padrão; usamos o <time> como "marcador". */
+.contrib-marcos {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  border-left: 2px solid var(--gold);
+}
+.contrib-marcos li {
+  position: relative;
+  padding: 0 0 16px 22px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+/* ::before cria uma "bolinha" na linha do tempo sem precisar de HTML extra */
+.contrib-marcos li::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.contrib-marcos time {
+  display: block;
+  font-weight: 700;
+  color: var(--red);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* ---- Instrumentos ---- */
+.instrumentos {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 50px;
+  align-items: start;
+  margin-top: 90px;
+  padding: 42px;
+  background: var(--cream);
+}
+/* ---- Palco 3D dos instrumentos ----
+   position: relative no palco permite posicionar o aviso e a dica
+   "por cima" do canvas com position: absolute. */
+.instrument-3d {
+  margin: 0;
+}
+.instrument-stage {
+  position: relative;
+  height: 400px;
+  /* gradiente radial: um "holofote" claro no centro, escurecendo nas bordas */
+  background: radial-gradient(circle at 50% 45%, #3a2a1f 0%, var(--black) 70%);
+}
+.instrument-stage canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  touch-action: none; /* no celular, arrastar gira o modelo em vez de rolar a página */
+}
+.instrument-stage canvas:active { cursor: grabbing; }
+.instrument-loading,
+.instrument-hint {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* técnica clássica para centralizar na horizontal */
+  margin: 0;
+  color: var(--gold-light);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+.instrument-loading { top: 45%; width: 80%; }
+.instrument-hint { bottom: 12px; opacity: .7; pointer-events: none; }
+
+/* ---- Legenda: bolinha de cor + nome da peça + forma do código ---- */
+.instrument-3d figcaption {
+  padding: 18px 0 0;
+}
+.legend-title {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.instrument-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+/* Cada item é um mini-grid: coluna 1 = bolinha, coluna 2 = textos */
+.instrument-legend li {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: 10px;
+  align-items: baseline;
+  font-size: 14px;
+}
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #0003;
+  grid-row: span 2; /* a bolinha ocupa as duas linhas (nome e forma) */
+  align-self: center;
+}
+.instrument-legend small {
+  grid-column: 2;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: Consolas, 'Courier New', monospace; /* fonte de código, pois são nomes do Three.js */
+}
+.legend-note {
+  display: block;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---- Foto real, para comparar com o modelo ---- */
+.instrument-photo {
+  margin: 22px 0 0;
+}
+.instrument-photo img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+.instrument-photo figcaption {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.instrument-picker {
+  display: flex;
+  flex-wrap: wrap; /* quebra a linha quando não couber (celular) */
+  gap: 8px;
+  margin: 18px 0;
+}
+.instrument-choice {
+  border: 1px solid var(--brown);
+  background: transparent;
+  color: var(--brown);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.instrument-choice:hover,
+.instrument-choice.active {
+  background: var(--brown);
+  color: #fff;
+}
+.instrument-panel {
+  border-top: 2px solid var(--gold);
+  padding-top: 16px;
+}
+.instrument-panel h4 {
+  font: 700 22px var(--serif);
+  margin: 0 0 8px;
+}
+.instrument-panel p {
+  font-size: 14px;
+  margin: 0;
+}
+/* animação reaproveitada do animations.css (fadeUp) */
+.instrument-panel.trocou {
+  animation: fadeUp .35s;
+}
+
+/* ---- Comidas típicas ---- */
+.food-heading {
+  margin: 100px 0 36px;
+  max-width: 760px;
+}
+/* repeat(auto-fill, minmax(300px, 1fr)): o navegador coloca quantas
+   colunas couberem, cada uma com no mínimo 300px. Assim o grid se
+   adapta sozinho ao tamanho da tela, sem precisar de @media.
+   Com 6 pratos, isso dá 3 colunas x 2 linhas no computador. */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+.food-card {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 35px #3425150c;
+  transition: transform .3s;
+}
+.food-card:hover {
+  transform: translateY(-4px);
+}
+.food-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.food-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* ocupa o espaço restante: os botões ficam alinhados embaixo */
+}
+.food-info > span {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--red);
+  font-weight: 700;
+}
+.food-info h4 {
+  font: 700 22px var(--serif);
+  margin: 8px 0;
+}
+.food-info p {
+  font-size: 14px;
+  color: var(--muted);
+  flex: 1;
+}
+.food-more {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---- Mito ou fato? (<details>) ---- */
+.myth-card {
+  margin-top: 50px;
+  background: var(--black);
+  color: #fff;
+}
+.myth-card summary {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: center;
+  gap: 28px;
+  cursor: pointer;
+  list-style: none; /* esconde o triângulo padrão do <details> */
+}
+.myth-card summary::-webkit-details-marker {
+  display: none; /* o mesmo, para navegadores baseados no Chrome/Safari */
+}
+.myth-card summary img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  display: block;
+}
+.myth-text {
+  display: grid;
+  gap: 8px;
+  padding: 20px 28px 20px 0;
+}
+.myth-tag {
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.myth-text strong {
+  font: 700 clamp(18px, 2.2vw, 24px) var(--serif);
+  line-height: 1.3;
+}
+.myth-cta {
+  font-size: 13px;
+  color: var(--gold-light);
+}
+/* [open] é o atributo que o navegador coloca no <details> quando ele está aberto */
+.myth-card[open] .myth-cta {
+  display: none;
+}
+.myth-answer {
+  padding: 6px 28px 28px 248px;
+  font-size: 15px;
+  color: #e8ddcd;
+  animation: fadeUp .35s;
+}
+.contrib-footnote {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 30px;
+}
+
+/* ---- Alto contraste ---- */
+body.high-contrast .contrib-section,
+body.high-contrast .instrumentos {
+  background: #fff;
+}
+body.high-contrast .myth-card {
+  background: #000;
+}
+body.high-contrast .myth-answer {
+  color: #fff;
+}
+
+/* ---- Telas menores (tablet e celular) ----
+   Em telas estreitas, as colunas viram uma coisa embaixo da outra. */
+@media (max-width: 900px) {
+  .contrib-block,
+  .instrumentos {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .contrib-figure img {
+    height: 300px;
+  }
+  .instrument-stage {
+    height: 320px;
+  }
+  .instrumentos {
+    padding: 24px;
+  }
+  .myth-card summary {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .myth-text {
+    padding: 20px 22px;
+  }
+  .myth-answer {
+    padding: 0 22px 24px;
+  }
+}
+
+/* =========================================================
+   11. RODA EM 3D (dois capoeiristas)
+   ========================================================= */
+.roda3d {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr; /* o palco 3D fica maior que o texto */
+  gap: 44px;
+  align-items: center;
+  margin-top: 90px;
+}
+.roda3d-stage {
+  position: relative;
+  height: 460px;
+  background: radial-gradient(circle at 50% 40%, #4a3526 0%, var(--black) 75%);
+}
+.roda3d-stage canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  touch-action: pan-y; /* no celular: arrastar na horizontal gira, na vertical rola a página */
+}
+.roda3d-stage canvas:active { cursor: grabbing; }
+.roda3d-ritmo {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  margin: 0;
+  padding: 6px 12px;
+  background: var(--gold);
+  color: var(--black);
+  font-size: 12px;
+  font-weight: 700;
+}
+.roda3d-texto h3 {
+  font: 700 clamp(24px, 3vw, 32px) var(--serif);
+  margin: 0 0 14px;
+}
+.roda3d-texto > p:not(.eyebrow):not(.legend-note) {
+  font-size: 15px;
+}
+
+/* Botões de movimento: mesmo visual dos botões de instrumento.
+   Separar as classes evita que um JavaScript mexa nos botões do outro. */
+.movimento-choice {
+  border: 1px solid var(--brown);
+  background: transparent;
+  color: var(--brown);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.movimento-choice:hover,
+.movimento-choice.active {
+  background: var(--brown);
+  color: #fff;
+}
+
+.roda3d-controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin-top: 18px;
+  font-size: 13px;
+}
+.btn-mini {
+  border: 1px solid var(--ink);
+  background: transparent;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-mini-gold {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+}
+.roda3d-velocidade {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+/* accent-color pinta controles nativos (range, checkbox) com a cor do site */
+.roda3d-controles input,
+.trilha input {
+  accent-color: var(--red);
+}
+.roda3d-velocidade output {
+  min-width: 46px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   12. PLAYER DA TRILHA SONORA (fixo no canto da tela)
+   ========================================================= */
+.trilha {
+  position: fixed;   /* fica parado na tela mesmo rolando a página */
+  left: 18px;
+  bottom: 18px;
+  z-index: 250;      /* acima do conteúdo, abaixo do modal (300) */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.trilha-abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px;
+  border: 0;
+  background: var(--black);
+  color: var(--gold-light);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px #0005;
+  cursor: pointer;
+}
+/* Mini "equalizador": três barrinhas que pulam enquanto a música toca */
+.trilha-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+.trilha-eq i {
+  width: 3px;
+  height: 5px;
+  background: var(--gold);
+}
+.trilha.tocando .trilha-eq i {
+  animation: eqPula .8s ease-in-out infinite;
+}
+/* animation-delay diferente para cada barra: elas não pulam juntas */
+.trilha.tocando .trilha-eq i:nth-child(2) { animation-delay: .2s; }
+.trilha.tocando .trilha-eq i:nth-child(3) { animation-delay: .4s; }
+@keyframes eqPula {
+  0%, 100% { height: 4px; }
+  50% { height: 14px; }
+}
+
+.trilha-painel {
+  width: min(320px, calc(100vw - 36px)); /* nunca maior que a tela do celular */
+  padding: 20px;
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0 18px 50px #0006;
+  border-top: 3px solid var(--gold);
+}
+.trilha-painel[hidden] { display: none; }
+.trilha-titulo {
+  font: 700 20px var(--serif);
+  margin: 0 0 10px;
+}
+.trilha-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.trilha select {
+  width: 100%;
+  padding: 8px;
+  font: inherit;
+  font-size: 14px;
+  border: 1px solid var(--brown);
+  background: #fff;
+}
+.trilha-descricao {
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 12px 0;
+}
+.trilha-controles {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.trilha-tocar {
+  padding: 9px 16px;
+  border: 0;
+  background: var(--red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.trilha-volume {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.trilha-volume input { width: 100px; }
+.trilha-status {
+  font-size: 12px;
+  color: var(--red);
+  margin: 8px 0 0;
+  min-height: 1em;
+}
+.trilha-credito {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+.trilha-credito a { text-decoration: underline; }
+
+/* accent-color pinta controles nativos (range, checkbox) com a cor do site */
+.trilha input {
+  accent-color: var(--red);
+}
+
+/* Créditos: subtítulo da lista de áudios */
+.credits-subtitulo {
+  font: 700 22px var(--serif);
+  margin: 10px 0 0;
+}
+
+@media (max-width: 900px) {
+  .roda3d {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .roda3d-stage { height: 360px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trilha.tocando .trilha-eq i { animation: none; height: 10px; }
+}
